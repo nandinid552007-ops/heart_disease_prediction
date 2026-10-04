@@ -26,4 +26,26 @@ Predicting the presence of heart disease from clinical measurements, using the
 | Model | Accuracy | ROC-AUC | Recall |
 |---|---|---|---|
 | Logistic Regression | 0.806 | 0.875 | 0.843 |
-| Random Forest |
+| Random Forest | 0.813 | 0.871 | 0.862 |
+| XGBoost | 0.807 | 0.871 | 0.852 |
+
+All three models perform about the same. Differences are smaller than the variation between folds, and the test set has only 184 patients.
+
+**Key findings**
+- Strongest predictors: `oldpeak`, `thalch`, `age`, chest pain type, exercise-induced angina, ST slope and `thal`
+- `chol` added almost no predictive value (many values were recorded as 0 and imputed)
+- Lowering the decision threshold from 0.5 to 0.4 raised recall of logistic regression from 0.882 to 0.902 on the test set, at the cost of more false alarms
+
+## Limitations
+- Imputation was done before the train/test split, which may leak a small amount of information
+- Missingness differs by hospital; the hospital column was excluded on purpose
+- The data contains many more men than women
+- The threshold was compared on the test set
+- Not validated for clinical use
+
+## Run it
+```bash
+pip install -r requirements.txt
+python -m streamlit run app.py
+```
+The notebook additionally needs `matplotlib seaborn xgboost shap jupyter`, and the dataset CSV downloaded from Kaggle and placed next to the notebook.
